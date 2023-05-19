@@ -1,0 +1,43 @@
+To split and convert a CSV into a JSON array using custom scripting in Boomi, you can utilize the CSV parser and JSON library available in Groovy. Here's an example of how you can achieve this:
+
+Add a Custom Scripting shape to your Boomi process canvas.
+
+Double-click on the Custom Scripting shape to open the Scripting Editor.
+
+In the Scripting Editor, select the language as "Groovy".
+
+Write the following code to split and convert the CSV into a JSON array:
+
+groovy
+Copy code
+import groovy.json.JsonBuilder
+
+String csvString = inputData; // The CSV string you want to convert to JSON
+String[] lines = csvString.split("\n"); // Split the CSV string into lines
+
+String[] headers = lines[0].split(","); // Extract the headers from the first line
+List<Map<String, String>> jsonArray = []
+
+for (int i = 1; i < lines.size(); i++) {
+    String[] values = lines[i].split(","); // Split each line into values
+    Map<String, String> jsonEntry = [:]
+
+    for (int j = 0; j < headers.size(); j++) {
+        jsonEntry.put(headers[j], values[j]) // Map headers to corresponding values
+    }
+
+    jsonArray.add(jsonEntry) // Add the JSON entry to the JSON array
+}
+
+String jsonOutput = new JsonBuilder(jsonArray).toString() // Convert the JSON array to a string
+
+outputData = jsonOutput
+In the above code, inputData represents the input CSV string you want to convert to JSON, and outputData is the variable that stores the resulting JSON array.
+
+Click on the "Save" button to save the custom script.
+
+Configure the input and output fields for the Custom Scripting shape based on your specific requirements.
+
+Connect the Custom Scripting shape to the subsequent steps in your Boomi process.
+
+When executing this custom script in Boomi, provide the CSV string as the input, and the script will split the CSV based on the line breaks and commas. It will extract the headers from the first line, map the headers to corresponding values for each line, and generate a JSON array. The resulting JSON array will be stored in the outputData variable and can be used in subsequent steps of your Boomi integration process.
