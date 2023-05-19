@@ -1,0 +1,42 @@
+For manipulating Json you can look into using the following 2 libraries:
+
+groovy.json.JsonSlurper
+
+groovy.json.JsonOutput
+
+ 
+
+The JsonSlurper library will let you consume a Json string and convert it into an object that can be easily stepped through. This should let you make the necessary changes to your document.
+
+The JsonOutput library will let you take the Json object made above and convert it to a string so that you can convert it to a ByteArrayInputStream and output that back out of the Groovy script.
+
+ 
+
+Something like this should help:
+
+ 
+
+for( int i = 0; i < dataContext.getDataCount(); i++ ) 
+
+{
+
+InputStream is = dataContext.getStream(i);
+
+Properties props = dataContext.getProperties(i);
+
+def slurper = new JsonSlurper();
+
+def jsonObj = slurper.parse(is);
+
+ 
+
+// Make your date changes here.
+
+
+InputStream newIs = new ByteArrayInputStream(JsonOutput.toJson(jsonObj).getBytes());
+
+props.setProperty(DDP_JSON_CONTAINS, returnFlag.toString());
+
+dataContext.storeStream(newIs, props);
+
+}
