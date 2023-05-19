@@ -1,0 +1,27 @@
+Here's the custom script I used to handle null values and column header values to convert MM/dd/yyyy to the format of yyyyMMdd HHmmss.SSS:
+
+ 
+
+def times = '01:01:01.001';
+
+ 
+
+if (input == "Hire_Date" || input == null || input == "NULL" || input == "null"){
+
+  output = '01/01/2000'+' '+times;
+
+} else {
+
+  output = input+' '+times;
+
+}
+
+ 
+
+Next I passed this output to a date format function within the map with the following configuration:
+
+Date String: 01/01/2000 01:01:01.001
+
+Input Mask: MM/dd/yyyy HH:mm:ss.SSS
+
+Output Mask: yyyyMMdd HHmmss.SSS
