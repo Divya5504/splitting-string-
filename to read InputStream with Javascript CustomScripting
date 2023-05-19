@@ -1,0 +1,113 @@
+rying to use Javascript in Data Process Custom Scripting. Found out how to access the Java classes via the compatibility script (thanks to Properties in Scripting Component https://community.boomi.com/s/question/0D51W00006As2bpSAB ), but now I'm trying to read the incoming document (InputStream).
+
+
+What's the best way to read the InputStream into a byte array or a string?
+
+
+// Load compatibility script
+
+load("nashorn:mozilla_compat.js");
+
+// Import the com.boomi.execution.ExecutionUtil class
+
+importClass(com.boomi.execution.ExecutionUtil);
+
+importClass(java.util.Properties);
+
+importClass(java.io.InputStream);
+
+for( var i = 0; i < dataContext.getDataCount(); i++ ) {
+
+
+var is = dataContext.getStream(i);
+
+var props = dataContext.getProperties(i);
+
+// How to manipulate "is"?
+
+
+dataContext.storeStream('test', props);
+
+}
+.......................................................................
+To convert the inputstream to a string, you can use the toString() method. The resulting string can be manipulated and converted to an inputstream before passing it back. See the following script based on your script:
+
+
+// Load compatibility script
+
+
+load("nashorn:mozilla_compat.js");
+
+// Import the com.boomi.execution.ExecutionUtil class
+
+importClass(com.boomi.execution.ExecutionUtil);
+
+importClass(java.util.Properties);
+
+importClass(java.io.InputStream);
+
+for( var i = 0; i < dataContext.getDataCount(); i++ ) {
+
+
+var is = dataContext.getStream(i);
+
+var props = dataContext.getProperties(i);
+
+// Convert inputstream to string
+
+
+var test_string = is.toString();
+
+// Manipulate the string
+
+
+test_string = "test";
+
+//Create a new inputstream, passing in the string
+
+
+var stream = new java.io.ByteArrayInputStream(test_string.getBytes("UTF-8") );
+
+//Pass inputstream back
+
+
+dataContext.storeStream(stream, props);
+
+}
+...............................................................................
+////////////////////////////////////////////////
+// Load compatibility script
+load("nashorn:mozilla_compat.js");
+// Load Java classes
+importClass(com.boomi.execution.ExecutionUtil);
+importClass(java.util.Properties);
+importClass(java.io.ByteArrayInputStream);
+importClass(java.util.Scanner);
+ 
+for( var i = 0; i < dataContext.getDataCount(); i++ ) {
+var is = dataContext.getStream(i);
+var props = dataContext.getProperties(i);
+ 
+var s = new Scanner(is).useDelimiter("\\A");
+var inputString = s.hasNext() ? s.next() : "";
+ 
+// Create outputString
+var outputString = inputString + inputString
+ 
+//Create a new ByteArrayInputStream, passing in the string
+var newStream = new java.io.ByteArrayInputStream(outputString.getBytes("UTF-8") );
+ 
+//Pass inputstream back
+dataContext.storeStream(newStream, props);
+}
+////////////////////////////////////////////////
+For convenience, here are a few functions to condense the operations.
+
+function getStream(num) {
+ var s = new Scanner(dataContext.getStream(num)).useDelimiter("\\A");
+ return s.hasNext() ? s.next() : "";
+}
+function storeStream(str, props) {
+ props = !props ? new Properties() : props
+ dataContext.storeStream(new ByteArrayInputStream(str.getBytes("UTF-8") ), props)
+}
