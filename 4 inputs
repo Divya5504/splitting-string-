@@ -1,0 +1,30 @@
+To split a string based on a character using custom scripting in Boomi with four inputs, you can modify the previous code to accept the inputs as process properties. Here's an example of how you can achieve this:
+
+Add a Custom Scripting shape to your Boomi process canvas.
+
+Double-click on the Custom Scripting shape to open the Scripting Editor.
+
+In the Scripting Editor, select the language as "Groovy".
+
+Write the following code to split the string based on a character:
+
+groovy
+Copy code
+String inputString = processProperties['inputString']; // The input string you want to split
+String splitCharacter = processProperties['splitCharacter']; // The character to split the string
+String outputArrayProperty = processProperties['outputArrayProperty']; // The process property to store the split items
+
+String[] splitArray = inputString.split(splitCharacter); // Split the string based on the provided character
+
+for (String item : splitArray) {
+    context.setProperty(outputArrayProperty, item); // Set each split item as a process property
+}
+In the above code, inputString is the process property that contains the input string you want to split, splitCharacter is the process property that contains the character to split the string, and outputArrayProperty is the process property where you want to store the split items.
+
+Click on the "Save" button to save the custom script.
+
+Configure the input and output fields for the Custom Scripting shape based on your specific requirements. For the inputs, you can configure four process properties: inputString, splitCharacter, outputArrayProperty, and an additional output property to capture any errors or success messages.
+
+Connect the Custom Scripting shape to the subsequent steps in your Boomi process.
+
+When executing the custom script in Boomi, make sure to set the appropriate values for the four process properties (inputString, splitCharacter, outputArrayProperty). The input string will be split based on the provided character, and each split item will be set as a process property specified by outputArrayProperty. You can then continue processing the split items or access them in subsequent steps of your Boomi integration process.
