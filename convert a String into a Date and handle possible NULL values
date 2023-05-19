@@ -1,0 +1,33 @@
+How do I convert a String into a Date and handle possible NULL values?
+I have a string coming in the format of "MM-dd-yyyy". I need to convert the data type to a date and in the format of "yyyy-MM-dd" using a Map Shape function (custom scripting I assume). This seems pretty straightforward, but the issue is sometimes the input string is NULL, and I get the error that I cannot convert NULL to a date or the input is invalid.
+
+ 
+
+Does anyone have a custom script I could write to convert strings to dates while handling NULL inputs?
+Here's the custom script I used to handle null values and column header values to convert MM/dd/yyyy to the format of yyyyMMdd HHmmss.SSS:
+
+ 
+
+def times = '01:01:01.001';
+
+ 
+
+if (input == "Hire_Date" || input == null || input == "NULL" || input == "null"){
+
+  output = '01/01/2000'+' '+times;
+
+} else {
+
+  output = input+' '+times;
+
+}
+
+ 
+
+Next I passed this output to a date format function within the map with the following configuration:
+
+Date String: 01/01/2000 01:01:01.001
+
+Input Mask: MM/dd/yyyy HH:mm:ss.SSS
+
+Output Mask: yyyyMMdd HHmmss.SSS
