@@ -1,0 +1,28 @@
+Custom scripting for splitting a string based on the character
+In Boomi, you can use a Custom Scripting step to split a string based on a specific character. The custom script can be written using Groovy, which is a widely used scripting language in Boomi. Here's an example of how you can split a string based on a character using custom scripting in Boomi:
+
+Add a Custom Scripting shape to your Boomi process canvas.
+
+Double-click on the Custom Scripting shape to open the Scripting Editor.
+
+In the Scripting Editor, select the language as "Groovy".
+
+Write the following code to split the string based on a character (in this example, we'll use the comma character):
+
+groovy
+Copy code
+String inputString = inputData; // The input string you want to split
+String[] splitArray = inputString.split(","); // Split the string based on the comma character
+
+for (String item : splitArray) {
+    outputData.add(item); // Add each split item to the output data
+}
+In the above code, inputData represents the input string that you want to split, and outputData is an ArrayList where you can store the split items.
+
+Click on the "Save" button to save the custom script.
+
+Configure the input and output fields for the Custom Scripting shape based on your specific requirements.
+
+Connect the Custom Scripting shape to the subsequent steps in your Boomi process.
+
+By executing this custom script in Boomi, the input string will be split based on the specified character (comma in this example), and each split item will be added to the output data. You can then continue processing the split items as needed in your Boomi integration process.
