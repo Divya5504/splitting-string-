@@ -1,0 +1,84 @@
+Split and convert CSV into JSON array
+Dear Team,
+
+ 
+
+i am creating a basic flow to achieve one requirement.
+
+ 
+
+Scenario:
+
+Step1:
+
+I have CSV data as source :
+
+eg: Naeem,Umer,AAA;BBB;CCC;DDD
+
+ 
+
+Step2:
+
+Convert CSV data to JSON using MAP
+
+in Map i am using scripting function to split the above bold field AAA;BBB;CCC;DDD.
+
+ 
+
+Step3:
+
+its returning output as json:
+
+[
+
+{
+
+"name": "DI",
+
+"lastName": "YA",
+
+"addresses": [
+
+"DDD"
+
+]
+
+}
+
+]
+
+Above output is it iterating but return the last splited value.
+
+ 
+
+ 
+
+But i want to below output
+
+[
+
+{
+
+"name": "DI",
+
+"lastName": "YA",
+
+"addresses": [
+
+"AAA",
+
+"BBB",
+
+"CCC",
+
+"DDD"
+
+]
+
+}
+
+]
+
+ 
+
+Please see the attached snap as well for clear picture.
